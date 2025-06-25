@@ -17,6 +17,7 @@ export const Colors = {
     softGrey: "#959697",
     lightGray: "#D5D5D5",
     leafGreen: "#3FA535",
+    gray: "#8F9092",
   },
   dark: {
     text: "#ECEDEE",
@@ -26,5 +27,8 @@ export const Colors = {
     tabIconDefault: "#9BA1A6",
     tabIconSelected: tintColorDark,
     softGrey: "#959697",
+    lightGray: "#D5D5D5",
+    leafGreen: "#3FA535",
+    gray: "#8F9092",
   },
 };
