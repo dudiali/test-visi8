@@ -1,16 +1,19 @@
-import { useAuth } from "@/hooks/useAuth";
-import { Redirect, Slot } from "expo-router";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { Redirect, Stack } from "expo-router";
 
 const AuthLayout = () => {
-  const { isLogin, isLoading } = useAuth();
+  const token = useAppSelector((state) => state.session.token);
 
-  // if (!isLogin) {
-  //   return <Redirect href="/login" />;
-  // }
-
-  if (isLoading) return null;
-
-  return !isLogin ? <Redirect href="/login" /> : <Slot />;
+  return !token ? (
+    <Redirect href="/login" />
+  ) : (
+    <Stack
+      screenOptions={{
+        animation: "ios_from_right",
+        headerShown: false,
+      }}
+    />
+  );
 };
 
 export default AuthLayout;
