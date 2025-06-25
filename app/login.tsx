@@ -1,11 +1,11 @@
+import Button from "@/components/Button";
+import Container from "@/components/Container";
+import CustomTextInput from "@/components/CustomTextInput";
 import { Colors } from "@/constants/Colors";
 import { width } from "@/constants/Styles";
 import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
-import Button from "./components/Button";
-import Container from "./components/Container";
-import CustomTextInput from "./components/CustomTextInput";
 
 const Login = () => {
   const [secure, setSecure] = useState<boolean>(false);
@@ -32,6 +32,31 @@ const Login = () => {
           </TouchableOpacity>
         </View>
         <Button title="Masuk" onPress={() => {}} />
+        <View style={styles.acctextsection}>
+          <Text style={styles.confirmationtext}>Belum punya akun? </Text>
+          <TouchableOpacity activeOpacity={0.5}>
+            <Text style={styles.createacctext}>Buat Akun</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.rowsection}>
+          <View style={styles.line} />
+          <Text style={styles.rowtext}>atau</Text>
+          <View style={styles.line} />
+        </View>
+        <Button paddingVertical={width * 0.033} onPress={() => {}} outline>
+          <View style={styles.btnregister}>
+            <Image
+              style={styles.googleicon}
+              source={require("../assets/images/google_icon.png")}
+            />
+            <Text style={styles.googletext}>Google</Text>
+          </View>
+        </Button>
+        <TouchableOpacity style={styles.bottomtextbtn} activeOpacity={0.5}>
+          <Text style={styles.bottomtext}>
+            Lewati, langsung lihat daftar komik
+          </Text>
+        </TouchableOpacity>
       </View>
     </Container>
   );
@@ -43,6 +68,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: width * 0.5,
     marginHorizontal: width * 0.05,
+    flex: 1,
   },
   headerimage: {
     position: "absolute",
@@ -72,5 +98,64 @@ const styles = StyleSheet.create({
     fontFamily: "InterMedium",
     fontSize: RFValue(10),
     color: Colors.light.leafGreen,
+  },
+  acctextsection: {
+    flexDirection: "row",
+    alignSelf: "center",
+  },
+  confirmationtext: {
+    fontFamily: "InterRegular",
+    fontSize: RFValue(12),
+    color: Colors.light.softGrey,
+  },
+  createacctext: {
+    fontFamily: "InterRegular",
+    fontSize: RFValue(12),
+    color: Colors.light.leafGreen,
+  },
+  line: {
+    backgroundColor: Colors.light.gray,
+    height: width * 0.001,
+    flex: 1,
+  },
+  rowsection: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: width * 0.05,
+    marginBottom: width * 0.01,
+  },
+  rowtext: {
+    fontFamily: "InterRegular",
+    fontSize: RFValue(12),
+    color: Colors.light.softGrey,
+    marginHorizontal: width * 0.03,
+  },
+  googleicon: {
+    width: width * 0.06,
+    height: width * 0.06,
+  },
+  btnregister: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  googletext: {
+    color: Colors.light.text,
+    fontFamily: "InterBold",
+    fontSize: RFValue(13),
+    marginLeft: width * 0.02,
+  },
+  bottomtext: {
+    fontFamily: "InterBold",
+    color: Colors.light.leafGreen,
+    fontSize: RFValue(12),
+  },
+  bottomtextbtn: {
+    alignSelf: "center",
+    bottom: 0,
+    position: "absolute",
+    borderBottomWidth: 1,
+    borderColor: Colors.light.leafGreen,
   },
 });
