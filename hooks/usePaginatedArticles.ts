@@ -1,11 +1,14 @@
 import { getAllArticles } from "@/lib/api";
 import { ArticleIndex } from "@/lib/zodScheme";
+import { setData } from "@/state/sessionSlice";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 
 const PAGE_SIZE = 5;
 let allArticlesCache: ArticleIndex[] | null = null;
 
 export const usePaginatedArticles = () => {
+  const dispatch = useDispatch();
   return useInfiniteQuery({
     queryKey: ["articles"],
     queryFn: async ({ pageParam = 0 }) => {
@@ -16,6 +19,7 @@ export const usePaginatedArticles = () => {
       const start = pageParam * PAGE_SIZE;
       const end = start + PAGE_SIZE;
       const pageData = allArticlesCache.slice(start, end);
+      dispatch(setData(pageData));
 
       return pageData;
     },

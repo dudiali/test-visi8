@@ -1,11 +1,14 @@
+import { ArticleIndex } from "@/lib/zodScheme";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SessionState {
   token: string | null;
+  data: ArticleIndex[];
 }
 
 const initialState: SessionState = {
   token: "1231",
+  data: [],
 };
 
 const sessionSlice = createSlice({
@@ -18,8 +21,11 @@ const sessionSlice = createSlice({
     clearToken: (state) => {
       state.token = null;
     },
+    setData: (state, action: PayloadAction<ArticleIndex[]>) => {
+      state.data = action.payload;
+    },
   },
 });
 
-export const { setToken, clearToken } = sessionSlice.actions;
+export const { setToken, clearToken, setData } = sessionSlice.actions;
 export default sessionSlice.reducer;
