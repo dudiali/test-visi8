@@ -11,6 +11,10 @@
    ```bash
    ios: npm run ios
    android: npm run android
+
+   credential
+   email: test@example.com
+   password: 123456
    ```
 
 3. note
