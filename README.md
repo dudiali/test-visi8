@@ -28,25 +28,25 @@
 
    Here is the diff that solved the problem:
 
-   <pre><code>```dif
+   ```dif
    diff --git a/node_modules/react-native-markdown-display/src/lib/renderRules.js
-   
+
    const imageProps = {
    indicator: true,
-   
+
    - key: node.key,
      style: styles.\_VIEW_SAFE_image,
      source: {
      uri: show === true ? src : `${defaultImageHandler}${src}`,
      },
      };
-   
+
    if (alt) {
    imageProps.accessible = true;
    imageProps.accessibilityLabel = alt;
    }
-   
+
    - return <FitImage {...imageProps} />;
-   
+
    * return <FitImage key={node.key} {...imageProps} />;
-   ```</code></pre>
+   ```
