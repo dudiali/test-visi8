@@ -29,12 +29,12 @@
    Here is the diff that solved the problem:
 
    ```dif
-   diff --git a/node_modules/react-native-markdown-display/src/lib/renderRules.js
+   --git a/node_modules/react-native-markdown-display/src/lib/renderRules.js
 
    const imageProps = {
    indicator: true,
 
-   - key: node.key,
+     key: node.key, // delete this
      style: styles.\_VIEW_SAFE_image,
      source: {
      uri: show === true ? src : `${defaultImageHandler}${src}`,
@@ -46,7 +46,7 @@
    imageProps.accessibilityLabel = alt;
    }
 
-   - return <FitImage {...imageProps} />;
+   // - return <FitImage {...imageProps} />;
 
-   * return <FitImage key={node.key} {...imageProps} />;
+   // + return <FitImage key={node.key} {...imageProps} />;
    ```
