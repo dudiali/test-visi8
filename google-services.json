@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "674133951637",
+    "project_id": "auth-852d5",
+    "storage_bucket": "auth-852d5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674133951637:android:f4feaf1699fc2075d2479c",
+        "android_client_info": {
+          "package_name": "com.rakitodc.testvisi8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674133951637-0gc2spd839l7jl19u57fe45amittk1pl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWmzpHCmwtxEsWLr_EmHVb246UBLOx35w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674133951637-0gc2spd839l7jl19u57fe45amittk1pl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674133951637-ge238161uqprdor31c86dduh5t352qcc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rakitodc.testvisi8"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

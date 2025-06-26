@@ -11,7 +11,10 @@ platform :ios, podfile_properties['ios.deploymentTarget'] || '15.1'
 install! 'cocoapods',
   :deterministic_uuids => false
 
+
 prepare_react_native_project!
+
+use_frameworks! :linkage => :static
 
 target 'testvisi8' do
   use_expo_modules!
@@ -42,10 +45,6 @@ target 'testvisi8' do
     :privacy_file_aggregation_enabled => podfile_properties['apple.privacyManifestAggregationEnabled'] != 'false',
   )
 
-  pod 'Firebase', :modular_headers => true
-  pod 'FirebaseCore', :modular_headers => true
-  pod 'GoogleUtilities', :modular_headers => true
-  
   post_install do |installer|
     react_native_post_install(
       installer,
