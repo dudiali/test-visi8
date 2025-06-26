@@ -1,33 +1,57 @@
 // import * as SecureStore from "expo-secure-store";
-import { auth } from "@/lib/firebase";
-import { clearToken, setToken } from "@/state/sessionSlice";
-import { useSegments } from "expo-router";
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "./reduxHooks";
+import { setToken } from "@/state/sessionSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getApp } from "@react-native-firebase/app";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+} from "@react-native-firebase/auth";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export const useAuth = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const dispatch = useAppDispatch();
-  const token = useAppSelector((s) => s.session.token);
-  const segments = useSegments();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [user, setUser] = useState();
+  const [error, setError] = useState<string>();
+  const [secure, setSecure] = useState<boolean>(true);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (user) => {
+  const signIn = async () => {
+    setIsLoading(true);
+    try {
+      const authInstance = getAuth(getApp());
+      const response = await signInWithEmailAndPassword(
+        authInstance,
+        email,
+        password
+      );
+      const user = response.user;
+
       if (user) {
-        const userToken = user.getIdToken();
-        dispatch(setToken(userToken));
-      } else {
-        dispatch(clearToken());
+        console.log(user.uid);
+        setIsLoading(false);
+        dispatch(setToken(user.uid));
+        await AsyncStorage.setItem("token", user.uid);
       }
-    });
-
-    return unsub;
-  }, []);
+    } catch (error: any) {
+      setIsLoading(false);
+      setError(error.message);
+      console.log(error.message);
+    }
+  };
 
   return {
-    isLogin,
     isLoading,
+    signIn,
+    error,
+    setError,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    secure,
+    setSecure,
   };
 };

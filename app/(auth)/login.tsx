@@ -3,35 +3,67 @@ import Container from "@/components/Container";
 import CustomTextInput from "@/components/CustomTextInput";
 import { Colors } from "@/constants/Colors";
 import { width } from "@/constants/Styles";
-import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 const Login = () => {
-  const [secure, setSecure] = useState<boolean>(false);
+  const {
+    signIn,
+    isLoading,
+    error,
+    setError,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    secure,
+    setSecure,
+  } = useAuth();
 
   return (
     <Container>
       <Image
-        source={require("../assets/images/bg.png")}
+        source={require("../../assets/images/bg.png")}
         style={styles.headerimage}
       />
       <View style={styles.container}>
         <Text style={styles.headertext}>Masuk</Text>
         <Text style={styles.greetingstext}>Selamat datang kembali!</Text>
         <View style={styles.inputsection}>
-          <CustomTextInput placeholder="E-mail" />
+          <CustomTextInput
+            placeholder="E-mail"
+            onError={error}
+            onChangeText={(e: string) => {
+              setEmail(e);
+              setError("");
+            }}
+            value={email}
+          />
           <CustomTextInput
             placeholder="Kata Sandi"
             secureText
             onPress={() => setSecure(!secure)}
             secure={secure}
+            onError={error}
+            onChangeText={(e: string) => {
+              setPassword(e);
+              setError("");
+            }}
+            value={password}
           />
           <TouchableOpacity activeOpacity={0.5} style={styles.forgotpassbtn}>
             <Text style={styles.forgotpasstext}>Lupa Kata Sandi?</Text>
           </TouchableOpacity>
         </View>
-        <Button title="Masuk" onPress={() => {}} />
+        <Button loading={isLoading} title="Masuk" onPress={() => signIn()} />
         <View style={styles.acctextsection}>
           <Text style={styles.confirmationtext}>Belum punya akun? </Text>
           <TouchableOpacity activeOpacity={0.5}>
@@ -47,7 +79,7 @@ const Login = () => {
           <View style={styles.btnregister}>
             <Image
               style={styles.googleicon}
-              source={require("../assets/images/google_icon.png")}
+              source={require("../../assets/images/google_icon.png")}
             />
             <Text style={styles.googletext}>Google</Text>
           </View>
@@ -153,9 +185,10 @@ const styles = StyleSheet.create({
   },
   bottomtextbtn: {
     alignSelf: "center",
-    bottom: 0,
+    bottom: Platform.OS === "ios" ? 0 : width * 0.13,
     position: "absolute",
     borderBottomWidth: 1,
     borderColor: Colors.light.leafGreen,
+    borderStyle: "solid",
   },
 });

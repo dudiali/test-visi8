@@ -7,7 +7,7 @@ interface SessionState {
 }
 
 const initialState: SessionState = {
-  token: "1231",
+  token: null,
   data: [],
 };
 

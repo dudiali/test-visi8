@@ -1,7 +1,13 @@
 import { Colors } from "@/constants/Colors";
 import { width } from "@/constants/Styles";
 import { ReactNode } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 interface ButtonProps {
@@ -10,6 +16,8 @@ interface ButtonProps {
   children?: ReactNode;
   outline?: boolean;
   paddingVertical?: number;
+  loading?: boolean;
+  spinnerColor?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,6 +26,8 @@ const Button: React.FC<ButtonProps> = ({
   children,
   outline = false,
   paddingVertical = width * 0.043,
+  loading = false,
+  spinnerColor = "white",
 }) => {
   const styleButton = outline
     ? [styles.buttonoutline, { paddingVertical: paddingVertical }]
@@ -27,7 +37,13 @@ const Button: React.FC<ButtonProps> = ({
     : styles.buttontext;
   return (
     <TouchableOpacity activeOpacity={0.5} style={styleButton} onPress={onPress}>
-      {children ? children : <Text style={styleButtonText}>{title}</Text>}
+      {loading ? (
+        <ActivityIndicator size={"small"} color={spinnerColor} />
+      ) : (
+        <View>
+          {children ? children : <Text style={styleButtonText}>{title}</Text>}
+        </View>
+      )}
     </TouchableOpacity>
   );
 };

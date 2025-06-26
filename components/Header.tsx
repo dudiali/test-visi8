@@ -1,7 +1,13 @@
 import { width } from "@/constants/Styles";
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { ReactNode } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 interface HeaderProps {
@@ -9,6 +15,7 @@ interface HeaderProps {
   icon?: ReactNode;
   leftIcon?: ReactNode;
   onPressLeft?: () => void;
+  onPressRight?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -16,13 +23,25 @@ const Header: React.FC<HeaderProps> = ({
   icon,
   leftIcon,
   onPressLeft,
+  onPressRight,
 }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { paddingTop: Platform.OS === "ios" ? width * 0.04 : width * 0.08 },
+      ]}
+    >
       {icon ? (
         <View style={styles.row}>
           <Text style={styles.title}>{title}</Text>
-          <MaterialCommunityIcons name="line-scan" size={20} color="#121A26" />
+          <TouchableOpacity onPress={onPressRight}>
+            <MaterialCommunityIcons
+              name="line-scan"
+              size={20}
+              color="#121A26"
+            />
+          </TouchableOpacity>
         </View>
       ) : leftIcon ? (
         <View style={styles.rowleft}>
@@ -47,7 +66,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: width * 0.04,
+    paddingBottom: width * 0.04,
     backgroundColor: "white",
     paddingHorizontal: width * 0.04,
     shadowColor: "#000",

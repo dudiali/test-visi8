@@ -10,8 +10,10 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { store } from "@/state/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { LogBox } from "react-native";
 import { Provider } from "react-redux";
 const queryClient = new QueryClient();
+LogBox.ignoreAllLogs();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -24,7 +26,6 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 

@@ -5,7 +5,8 @@ import { convertDate } from "@/constants/Function";
 import { width } from "@/constants/Styles";
 import { usePaginatedArticles } from "@/hooks/usePaginatedArticles";
 import { BASE_URL } from "@/services/api";
-import { setData } from "@/state/sessionSlice";
+import { clearToken, setData } from "@/state/sessionSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import {
@@ -55,6 +56,15 @@ const Home = () => {
   const allArticles = data?.pages.flat() || [];
   const dispatch = useDispatch();
 
+  const logout = async () => {
+    dispatch(clearToken());
+    try {
+      await AsyncStorage.removeItem("token");
+    } catch (e) {
+      // remove error
+    }
+  };
+
   useEffect(() => {
     if (data?.pages) {
       const latestPage = data?.pages[data.pages.length - 1];
@@ -64,7 +74,7 @@ const Home = () => {
 
   return (
     <Container>
-      <Header title="Home Of Events" icon />
+      <Header title="Home Of Events" icon onPressRight={() => logout()} />
       <View style={styles.container}>
         {isLoading && <Text style={styles.loadingtext}>Loading...</Text>}
         {isError && (
