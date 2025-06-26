@@ -1,11 +1,12 @@
 import Container from "@/components/Container";
 import Header from "@/components/Header";
+import MarkdownDisplay from "@/components/MarkdownDisplay";
 import { Colors } from "@/constants/Colors";
 import { convertDate, getWords } from "@/constants/Function";
 import { width } from "@/constants/Styles";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useArticleDetail } from "@/hooks/useArticleDetail";
-import { BASE_URL } from "@/lib/api";
+import { BASE_URL } from "@/services/api";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   ActivityIndicator,
@@ -68,7 +69,7 @@ const DetailNews = () => {
             <View style={styles.container}>
               <Text style={styles.titletext}>{data?.title}</Text>
               <Text style={styles.date}>{convertDate(data?.date || "")}</Text>
-              <Text style={styles.contenttext}>{data?.body}</Text>
+              <MarkdownDisplay>{data?.body}</MarkdownDisplay>
             </View>
             <View style={styles.line} />
             <View style={styles.container}>

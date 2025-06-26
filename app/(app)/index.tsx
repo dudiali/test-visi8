@@ -4,9 +4,10 @@ import { Colors } from "@/constants/Colors";
 import { convertDate } from "@/constants/Function";
 import { width } from "@/constants/Styles";
 import { usePaginatedArticles } from "@/hooks/usePaginatedArticles";
-import { BASE_URL } from "@/lib/api";
+import { BASE_URL } from "@/services/api";
+import { setData } from "@/state/sessionSlice";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FlatList,
   Image,
@@ -16,6 +17,7 @@ import {
   View,
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import { useDispatch } from "react-redux";
 
 interface CardProps {
   image: string;
@@ -51,41 +53,56 @@ const Home = () => {
   } = usePaginatedArticles();
   const router = useRouter();
   const allArticles = data?.pages.flat() || [];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data?.pages) {
+      const latestPage = data?.pages[data.pages.length - 1];
+      dispatch(setData(latestPage));
+    }
+  }, [data, dispatch]);
 
   return (
     <Container>
       <Header title="Home Of Events" icon />
       <View style={styles.container}>
         {isLoading && <Text style={styles.loadingtext}>Loading...</Text>}
-        <FlatList
-          data={allArticles}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <ArticlesCard
-              onPress={() =>
-                router.push({
-                  pathname: "/(app)/detail_news",
-                  params: { id: item.id },
-                })
+        {isError && (
+          <Text style={[styles.loadingtext, { color: "red" }]}>
+            Terjadi Kesalahan
+          </Text>
+        )}
+        {!isError && (
+          <FlatList
+            data={allArticles}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <ArticlesCard
+                onPress={() =>
+                  router.push({
+                    pathname: "/(app)/detail_news",
+                    params: { id: item.id },
+                  })
+                }
+                image={item.banner_url}
+                title={item.title}
+                date={item.date}
+              />
+            )}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              if (hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
               }
-              image={item.banner_url}
-              title={item.title}
-              date={item.date}
-            />
-          )}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (hasNextPage && !isFetchingNextPage) {
-              fetchNextPage();
+            }}
+            ListFooterComponent={
+              isFetchingNextPage ? (
+                <Text style={styles.loadingtext}>Memuat lebih banyak...</Text>
+              ) : null
             }
-          }}
-          ListFooterComponent={
-            isFetchingNextPage ? (
-              <Text style={styles.loadingtext}>Memuat lebih banyak...</Text>
-            ) : null
-          }
-        />
+          />
+        )}
       </View>
     </Container>
   );
