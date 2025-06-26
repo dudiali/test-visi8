@@ -3,7 +3,7 @@ import {
   ArticleIndex,
   ArticleIndexScheme,
   ArticleScheme,
-} from "./zodScheme";
+} from "@/lib/zodScheme";
 
 export const BASE_URL =
   "https://raw.githubusercontent.com/visi8-ppramesi/visi8-interview-mock-backend/main";

@@ -1,4 +1,4 @@
-import { getArticleDetail } from "@/lib/api";
+import { getArticleDetail } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 
 export const useArticleDetail = (id: string) => {
